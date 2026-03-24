@@ -2,7 +2,7 @@
 
 Copy or save HTTP request+response pairs to clipboard or file with one click:
 
-<img width="811" height="696" alt="image" src="https://github.com/user-attachments/assets/fde2fb68-b187-425d-8ca8-3cf86047f3ff" />
+<img width="585" height="270" alt="image" src="https://github.com/user-attachments/assets/f62fe678-c362-4877-b643-6c62725e948d" />
 
 Mostly vibecoded and in daily use by me.
 
