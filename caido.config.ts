@@ -4,7 +4,7 @@ export default defineConfig({
   id: "reqres-exporter",
   name: "ReqRes Exporter",
   description: "Copy or save HTTP request+response pairs to clipboard or file with one click.",
-  version: "1.0.0",
+  version: "1.0.1",
   author: {
     name: "Jakob Pachmann",
     email: "jakob.pachmann@proton.me",
