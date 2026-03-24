@@ -14,6 +14,12 @@ export default defineConfig({
       kind: "frontend",
       id: "reqres-exporter-frontend",
       root: "plugin",
+      backend: { id: "reqres-exporter-backend" },
+    },
+    {
+      kind: "backend",
+      id: "reqres-exporter-backend",
+      root: "backend",
     },
   ],
 });
