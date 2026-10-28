@@ -4,8 +4,10 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2024", "DOM"],
+    "types": ["@caido/sdk-backend"],
     "skipLibCheck": true
   },
-  "include": ["plugin/src"]
+  "include": ["plugin/src"],
+  "exclude": ["plugin/src/**/*.test.ts"]
 }

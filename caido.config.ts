@@ -4,7 +4,7 @@ export default defineConfig({
   id: "reqres-exporter",
   name: "ReqRes Exporter",
   description: "Copy or save HTTP request+response pairs to clipboard or file with one click.",
-  version: "1.0.1",
+  version: "1.1.0",
   author: {
     name: "Jakob Pachmann",
     email: "jakob.pachmann@proton.me",
@@ -15,6 +15,13 @@ export default defineConfig({
       id: "reqres-exporter-frontend",
       root: "plugin",
       backend: { id: "reqres-exporter-backend" },
+      vite: {
+        build: {
+          rollupOptions: {
+            external: ["vue"],
+          },
+        },
+      },
     },
     {
       kind: "backend",

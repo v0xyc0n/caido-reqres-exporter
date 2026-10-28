@@ -11,12 +11,18 @@ importers:
       '@caido-community/dev':
         specifier: ^0.1.6
         version: 0.1.6(postcss@8.5.8)(typescript@5.9.3)
+      '@caido/sdk-backend':
+        specifier: 0.58.3
+        version: 0.58.3
       '@caido/sdk-frontend':
         specifier: ^0.55.3
         version: 0.55.3(@ai-sdk/provider@3.0.8)(@codemirror/state@6.6.0)(@codemirror/view@6.40.0)(vue@3.5.30(typescript@5.9.3))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+      vue:
+        specifier: 3.5.30
+        version: 3.5.30(typescript@5.9.3)
 
 packages:
 
@@ -49,6 +55,12 @@ packages:
   '@caido/plugin-manifest@0.3.0':
     resolution: {integrity: sha512-HRGHf65K2sfSdaEUwkCNDlurJ4zL0bOUg/Db4u6CrwjTTzmg2gOzP6SzLRj+69gWmxOm5LUjhInNHaMIRmQkHw==}
 
+  '@caido/quickjs-types@0.26.0':
+    resolution: {integrity: sha512-Nnpu87fnTvVxEdLUQXAc9d763vj13GPcQEhSWireuLlDPDgxM/7dK8kZdOhGX/BhWRRZ7nUzNc3IdN+OVdsoSA==}
+
+  '@caido/sdk-backend@0.58.3':
+    resolution: {integrity: sha512-BZH7I2v/fvnUDMq1OrrK5peK+twsg62h+O1WiFYA/ttT7x/2XGXSBe4P6HMi+v1S6w7Ljs6ISOoo3SbSsnR5/A==}
+
   '@caido/sdk-frontend@0.55.3':
     resolution: {integrity: sha512-ALKnwVAaOQthX9ZVZwJJaQE6abQtvlhjL2kK9a6z0dzfrygAj8LqIV7PKanqzona+8g1DkLJ5ptjNd0q/XtcAA==}
     peerDependencies:
@@ -56,6 +68,9 @@ packages:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
       vue: ^3.0.0
+
+  '@caido/sdk-shared@0.2.2':
+    resolution: {integrity: sha512-qzfwXrjujNAmXxedQW2YI5Ls5h+Y/MvzHZxd10vnL6IJbRJStZGusDTnFYDWUyiQpCrc5kGuY3fLr8dYh3UHnw==}
 
   '@codemirror/state@6.6.0':
     resolution: {integrity: sha512-4nbvra5R5EtiCzr9BTHiTLc+MLXK2QGiAVYMyi8PkQd3SR+6ixar/Q/01Fa21TBIDOZXgeWV4WppsQolSreAPQ==}
@@ -1161,12 +1176,21 @@ snapshots:
     dependencies:
       ajv: 8.18.0
 
+  '@caido/quickjs-types@0.26.0': {}
+
+  '@caido/sdk-backend@0.58.3':
+    dependencies:
+      '@caido/quickjs-types': 0.26.0
+      '@caido/sdk-shared': 0.2.2
+
   '@caido/sdk-frontend@0.55.3(@ai-sdk/provider@3.0.8)(@codemirror/state@6.6.0)(@codemirror/view@6.40.0)(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@ai-sdk/provider': 3.0.8
       '@codemirror/state': 6.6.0
       '@codemirror/view': 6.40.0
       vue: 3.5.30(typescript@5.9.3)
+
+  '@caido/sdk-shared@0.2.2': {}
 
   '@codemirror/state@6.6.0':
     dependencies:

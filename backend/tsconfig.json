@@ -4,6 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
+    "types": ["@caido/sdk-backend"],
     "skipLibCheck": true
   },
   "include": ["src"]

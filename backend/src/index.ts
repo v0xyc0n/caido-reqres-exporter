@@ -17,10 +17,15 @@ async function saveFiles(
   files: { name: string; content: string }[]
 ): Promise<{ ok: boolean; error?: string }> {
   try {
+    for (const file of files) {
+      if (/[\\/]/.test(file.name) || file.name === "." || file.name === "..") {
+        throw new Error(`Refusing unsafe file name: ${file.name}`);
+      }
+    }
     await fsp.mkdir(dir, { recursive: true });
     for (const file of files) {
       const sep = dir.endsWith("/") || dir.endsWith("\\") ? "" : "/";
-      await fsp.writeFile(dir + sep + file.name, file.content, { encoding: "utf8" });
+      await fsp.writeFile(dir + sep + file.name, file.content);
     }
     return { ok: true };
   } catch (err) {
