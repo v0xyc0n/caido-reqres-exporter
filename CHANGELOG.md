@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Improvements
+
+- The README is now shown on the plugin page in the Caido store
+
 ## 1.1.0
 
 ### Features

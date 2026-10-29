@@ -2,7 +2,7 @@
 
 Copy or save HTTP request+response pairs to clipboard or file with one click:
 
-<img width="585" height="270" alt="image" src="https://github.com/user-attachments/assets/f62fe678-c362-4877-b643-6c62725e948d" />
+<img width="605" height="169" alt="Context menu: Plugins → ReqRes Exporter" src="docs/screenshot.png" />
 
 Mostly vibecoded and in daily use by me.
 

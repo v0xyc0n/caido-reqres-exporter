@@ -1,1 +1,3 @@
 minimumReleaseAge: 10080
+trustPolicyExclude:
+  - chokidar@4.0.3
