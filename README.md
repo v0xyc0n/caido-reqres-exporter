@@ -10,7 +10,7 @@ Mostly vibecoded and in daily use by me.
 
 Right-click one or more requests (in HTTP History, or the request/response panes) to get:
 
-- **Copy Request & Response** – copy using the default format
+- **Copy Request & Response** – copy using the default format (or press Cmd/Ctrl+Shift+C with requests selected in HTTP History or Sitemap)
 - **Copy Headers Only** – copy without bodies
 - **Copy with Template** – pick one of your templates
 - **Save Request & Response to File** – one file per request, saved to your output directory

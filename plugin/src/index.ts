@@ -106,10 +106,37 @@ async function fetchPair(
   };
 }
 
+/**
+ * Request ids selected on the current page. Keyboard shortcuts run commands
+ * with a bare `BaseContext`, so the selection has to be recovered from the
+ * global page context instead.
+ */
+function selectedIdsFromPage(sdk: Caido<API>): string[] {
+  let page;
+  try {
+    page = sdk.window.getContext().page;
+  } catch {
+    return [];
+  }
+  if (page === undefined) return [];
+
+  const selection =
+    page.kind === "HTTPHistory"
+      ? page.selection
+      : page.kind === "Sitemap"
+        ? page.requestSelection
+        : undefined;
+
+  if (selection === undefined || selection.kind !== "Selected") return [];
+  return [selection.main, ...selection.secondary];
+}
+
 async function pairsFromContext(sdk: Caido<API>, context: CommandContext): Promise<Pair[]> {
   let pairs: (Pair | null)[] = [];
   if (context.type === "RequestRowContext") {
     pairs = await mapWithLimit(context.requests, FETCH_CONCURRENCY, (r) => fetchPair(sdk, r.id));
+  } else if (context.type === "BaseContext") {
+    pairs = await mapWithLimit(selectedIdsFromPage(sdk), FETCH_CONCURRENCY, (id) => fetchPair(sdk, id));
   } else if (context.type === "RequestContext") {
     const req = context.request;
     if ("id" in req && req.id) pairs = [await fetchPair(sdk, req.id, req.raw)];
@@ -638,9 +665,12 @@ const TemplatePicker = defineComponent({
 
 // ─── Commands ─────────────────────────────────────────────────────────────────
 
-function confirmManyRequests(context: CommandContext): boolean {
-  if (context.type !== "RequestRowContext" || context.requests.length <= MANY_REQUESTS) return true;
-  return confirm(`You selected ${context.requests.length} requests. Continue?`);
+function confirmManyRequests(sdk: Caido<API>, context: CommandContext): boolean {
+  let count = 1;
+  if (context.type === "RequestRowContext") count = context.requests.length;
+  else if (context.type === "BaseContext") count = selectedIdsFromPage(sdk).length;
+  if (count <= MANY_REQUESTS) return true;
+  return confirm(`You selected ${count} requests. Continue?`);
 }
 
 function confirmLargeOutput(bytes: number): boolean {
@@ -656,7 +686,7 @@ async function cmdCopy(
   format: Format,
   opts: RenderOptions = {}
 ): Promise<void> {
-  if (!confirmManyRequests(context)) return;
+  if (!confirmManyRequests(sdk, context)) return;
   try {
     const pairs = await pairsFromContext(sdk, context);
     if (pairs.length === 0) {
@@ -675,7 +705,7 @@ async function cmdCopy(
 }
 
 async function cmdSave(sdk: Caido<API>, context: CommandContext, format: Format): Promise<void> {
-  if (!confirmManyRequests(context)) return;
+  if (!confirmManyRequests(sdk, context)) return;
   try {
     const dir = loadStorage(sdk).outputDir || (await sdk.backend.getDefaultDir());
 
@@ -735,6 +765,16 @@ function cmdCopyWithTemplate(sdk: Caido<API>, context: CommandContext): Promise<
 type MenuType = "RequestRow" | "Request" | "Response";
 const ALL_MENUS: MenuType[] = ["RequestRow", "Request", "Response"];
 
+/** Caido binds its own shortcuts to Cmd on macOS and Ctrl everywhere else. */
+function primaryModifier(): string {
+  try {
+    const platform = `${navigator.platform} ${navigator.userAgent}`;
+    return /mac/i.test(platform) ? "Meta" : "Control";
+  } catch {
+    return "Control";
+  }
+}
+
 export function init(sdk: Caido<API>): void {
   const PAGE_ID = "reqres-exporter-settings";
   sdk.navigation.addPage(PAGE_ID, { body: buildSettingsPage(sdk) });
@@ -786,4 +826,8 @@ export function init(sdk: Caido<API>): void {
       sdk.menu.registerItem({ type, commandId: cmd.id, leadingIcon: cmd.icon });
     }
   }
+
+  // Registered after the command: Caido ignores a shortcut for an unknown
+  // command id. It only sets a default — an existing user binding is kept.
+  sdk.shortcuts.register("copy-reqres", [primaryModifier(), "Shift", "C"]);
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+### Features
+
+- Shortcut Cmd/Ctrl+Shift+C copies the selected requests in HTTP History or Sitemap
+
 ## 1.1.1
 
 ### Improvements
